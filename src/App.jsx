@@ -21,11 +21,6 @@ const siderStyle = {
   color: "#fff",
   backgroundColor: "#1677ff",
 };
-const footerStyle = {
-  textAlign: "center",
-  color: "#fff",
-  backgroundColor: "#4096ff",
-};
 
 const App = () => (
   <Layout>
