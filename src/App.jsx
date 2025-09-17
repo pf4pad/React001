@@ -26,8 +26,13 @@ const footerStyle = {
   color: "#fff",
   backgroundColor: "#4096ff",
 };
-
-export default function App() {
+const layoutStyle = {
+  borderRadius: 8,
+  overflow: "hidden",
+  width: "calc(50% - 8px)",
+  maxWidth: "calc(50% - 8px)",
+};
+const App = () => (
   <Layout>
     <Header style={headerStyle}>Header</Header>
     <Layout>
@@ -36,6 +41,6 @@ export default function App() {
       </Sider>
       <Content style={contentStyle}>Content</Content>
     </Layout>
-    <Footer style={footerStyle}>Footer</Footer>
-  </Layout>;
-}
+  </Layout>
+);
+export default App;
