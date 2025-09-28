@@ -33,9 +33,9 @@ const headerStyle = {
 export default function AppHeader() {
   const [select, setSelect] = useState(false);
   const [modal, setModal] = useState(false);
-
-  const [drawer, setDrawer] = useState(false);
   const [coin, setCoin] = useState(null);
+  const [drawer, setDrawer] = useState(true);
+
   const { crypto } = useCrypto();
 
   useEffect(() => {
@@ -82,16 +82,22 @@ export default function AppHeader() {
         Add asset
       </Button>
 
-      <Modal open={modal} onCancel={() => setModal(false)} footer={null}>
+      <Modal
+        style={{ width: "40%" }}
+        open={modal}
+        onCancel={() => setModal(false)}
+        footer={null}
+      >
         <CoinInfoModal coin={coin} />
       </Modal>
 
       <Drawer
-        width={400}
+        width={600}
         title="Add Asset"
         closable={{ "aria-label": "Close Button" }}
         onClose={() => setDrawer(false)}
         open={drawer}
+        destroyOnHidden
       >
         <AddAssetForm />
       </Drawer>
