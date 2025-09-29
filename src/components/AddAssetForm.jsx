@@ -12,7 +12,18 @@ import {
 import { useCrypto } from "../context/crypto-context.jsx";
 import { useState } from "react";
 
+const validateMessages = {
+  required: "'${label}' is required!",
+  types: {
+    number: "'${label}' is not a valid number!",
+  },
+  number: {
+    range: "'${label}' must be between ${min} and ${max}",
+  },
+};
+
 export default function AddAssetForm() {
+  const [form] = Form.useForm();
   const [coin, setCoin] = useState(null);
   const { crypto } = useCrypto();
 
@@ -41,6 +52,20 @@ export default function AddAssetForm() {
       />
     );
   }
+
+  const handelAmountChange = (value) => {
+    const price = form.getFieldValue("price");
+    form.setFieldsValue({
+      total: +(value * price).toFixed(2),
+    });
+  };
+
+  const handelPriceChange = (value) => {
+    const amount = form.getFieldValue("amount");
+    form.setFieldsValue({
+      total: +(amount * value).toFixed(2),
+    });
+  };
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -59,12 +84,18 @@ export default function AddAssetForm() {
   </Typography.Title>;
   return (
     <Form
+      form={form}
       name="basic"
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 10 }}
       style={{ maxWidth: 600 }}
-      initialValues={{}}
+      initialValues={{
+        price: +coin.price.toFixed(2),
+        amount: 0,
+        total: 0,
+      }}
       onFinish={onFinish}
+      validateMessages={validateMessages}
     >
       <Form.Item
         label="Amount"
@@ -74,17 +105,20 @@ export default function AddAssetForm() {
             required: true,
             type: "number",
             min: 0,
-            message: "Please input your username!",
           },
         ]}
       >
-        <InputNumber />
+        <InputNumber
+          placeholder="Enter coin amount"
+          onChange={handelAmountChange}
+          style={{ width: "100%" }}
+        />
       </Form.Item>
 
       <Form.Item label="Price" name="price">
-        <InputNumber disabled style={{ width: "100%" }} />
+        <InputNumber onChange={handelPriceChange} style={{ width: "100%" }} />
       </Form.Item>
-      <Form.Item label="Date & Time" name="price">
+      <Form.Item label="Date & Time" name="Date">
         <DatePicker showTime style={{ width: "100%" }} />
       </Form.Item>
 
